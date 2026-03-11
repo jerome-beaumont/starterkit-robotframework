@@ -1,82 +1,71 @@
-# 🚀 Kit de Démarrage pour l'Automatisation des Tests
+# 🚀 next-iga - Framework d'automatisation Robot
 
-> **Un framework complet pour automatiser vos tests avec Robot Framework et Python**
+> **Framework Robot Framework + Playright pour tests fonctionnels automatisés**
 
 ## 📌 Introduction
-Ce kit de démarrage est conçu pour faciliter l'automatisation des tests dans vos projets. Il fournit une structure de fichiers et des outils nécessaires pour commencer rapidement.
+
+Ce projet automatise des tests fonctionnels via Robot Framework et des ressources/bibliothèques Python locales. Il suit une architecture modulaire avec séparation des couches (étapes, pages, services, socle).
 
 ---
 
-## 📁 Structure du Projet
+## 📂 Structure du projet (état réel)
 
 Voici la structure détaillée des dossiers avec les explications :
 
 ```
-automationTesting/
+next-iga/
 │
-├── 📄 README.md                                 # Documentation du projet
-├── 📄 robot.toml                               # Configuration Extension VSCOde Robocode
-├── 📄 .gitignore                               # Fichiers à ignorer dans Git
+├── 📄 README.md # Documentation du projet
+├── 📄 robot.toml # Configuration extension Robocode
+├── 📄 requirements.txt # Dépendances Python globales
+├── 📄 settings.yml # Configuration d'exécution
+├── 📄 .gitlab-ci.yml # Pipeline GitLab CI/CD
 │
-├── 📁 dataset/                                 # Données de test et secrets
-│   ├── 📄 DS_dataset.yaml                      # Ensemble de données pour les tests
-│   └── 🔒 secrets.kdbx                         # Gestionnaire de secrets (KeePass)
+├── 📁 dataenv/ # Données de test et secrets
+│ ├── 📄 INTEG_jdd.yml # Données pour l'environnement d'intégration (INTEG)
+│ └── 🔒 secrets.kdbx # Gestionnaire de secrets (KeePass)
 │
-├── 📁 doc/                                     # Documentation générée
-│   └── 📁 features/steps/
-│       └── 📄 dossier_step.html                # Documentation détaillée des steps
+├── 📁 doc/ # Documentation HTML générée
+│ └── 📄 *.html # Pages de doc Gherkin, hooks, etc.
 │
-├── 📁 features/                                # Scénarios de test (BDD - Gherkin)
-│   ├── 🧪 CU01_Acces_dossier_usager.feature    # Cas d'usage : Accès dossier usager
-│   └── 📁 steps/                               # Implémentation des étapes
-│       ├── ➡️ dossier_step.resource            # Keywords pour étapes dossier
-│       └── 📄 hooks.resource                   # Hooks de configuration (setup/teardown)
+├── 📁 outils/ # Scripts de lancement
+│ ├── 📄 run_local.bat # Exécution locale (PRINCIPAL)
+│ ├── 📄 build_doc.bat # Génération documentations
+│ ├── 📄 build_local.bat # Build local
+│ └── 📄 run_ci.sh # Exécution CI
 │
-├── 📁 cicd/                                    # Intégration continue / Déploiement continu
-│   ├── 📄 gitlab-ci.yml                        # Pipeline GitLab CI/CD
-│   ├── 📄 jenkinsfile                          # Pipeline Jenkins
-│   └── 📁 build/
-│       └── 📄 Dockerfile                       # Image Docker pour exécuter les tests
+├── 📁 output/ # Résultats d'exécution Robot
+│ ├── 📄 report.html # Rapport visuel des tests
+│ ├── 📄 log.html # Logs détaillés Robot
+│ ├── 📄 output.xml # Résultats bruts (format Robot)
+│ ├── 📄 StepsLogger.log # Logs step-by-step
+│ ├── 📄 *.ndjson # Audits (ReporterLibrary)
+│ ├── 📁 allure/ # Artefacts Allure
+│ └── 📁 browser/ # Traces navigateur (Playwright)
 │
-├── 📁 lib/                                     # Bibliothèques personnalisées Python
-│   ├── 📄 ReporterLibrary.py                   # Génération audit et log
-│   ├── 📄 StepsLogger.py                       # Logging détaillé des étapes
-│   └── 📄 requirements.txt                     # Dépendances Python du projet
+├── 📁 src/ # Scripts de test -  source principal
+│ │
+│ ├── 📁 librairies/ # Bibliothèques Python custom
+│ │ ├── 📄 ReporterLibrary.py # Génération audits NDJSON
+│ │ ├── 📄 StepsLogger.py # Logs structurés step-by-step
+│ │ └── 📄 *.py # Autres libs Python
+│ │
+│ ├── 📁 ressources/ # Ressources Robot Framework (keywords)
+│ │ ├── 📁 socle/ # Couche de base partagée
+│ │ │ ├── 📄 settings_socle.resource # Driver de la configuration
+│ │ │ ├── 📄 dataset_socle.resource  # Driver des jeux de données
+│ │ │ ├── 📄 vault_socle.resource    # Driver Keepass coffre-fort des secrets
+│ │ │ └── 📁 playwright/
+│ │ │   └─── 📄 web_socle.resource      # Driver Navigateurs
+│ │ │
+│ │ ├── 📁 etapes/ # Étapes métiers
+│ │ ├── 📁 pages/ # Page Object Model
+│ │ └── 📁 services/ # Services métier
+│ │
+│ └── 📁 test-suites/ # Suites de tests Robot
+│ └── 📄 *.robot
 │
-├── 📁 resources/                               # Ressources Robot Framework
-│   │
-│   ├── 📁 socle/                               # Ressources partagées de base
-│   |       ├── 📁 dryrun/                      # Simulation navigateur
-│   |       |   └── ⚙️ web_socle.resource               # Mock Selenium
-│   |       └── 📁 real/                        # pilotage reel navigateur
-│   |           └── ⚙️ web_socle.resource               # Pilotage Selenium
-│   │   ├── ⚙️ dataset_socle.resource           # Accès aux données de test
-│   │   ├── ⚙️ settings_socle.resource          # Accès aux parametres de configuration globale
-│   │   ├── ⚙️ vault_socle.resource             # Intégration avec gestionnaire secrets (KeePass)
-│   │   └── ⚙️ web_socle.resource               # Pilotage Selenium
-│   │
-│   └── 📁 WEB_DS/                              # Ressources spécifiques WEB_DS
-│       ├── 📁 pages/                           # Page Object Model
-│       │   ├── 📄 Connexion_page.resource      # Page de connexion (éléments + keywords)
-│       │   └── 📄 Demarches_page.resource      # Page des démarches (éléments + keywords)
-│       │
-│       └── 📁 services/                        # Services métier
-│           └── 📄 dossier_service.resource     # Services gestion des dossiers
-│
-└── 📁 run/                                     # Exécution et artefacts de test
-    ├── 📁 .venv/                               # Environnement virtuel Python
-    │
-    ├── 📁 workspace/                           # Résultats et artefacts d'exécution
-    │   ├── 📄 <test>.ndjson                    # Audit pour supervision (format NDJSON)
-    │   ├── 📄 log.html                         # Logs Robot Framework
-    │   ├── 📄 report.html                      # Rapport de test Robot Framework
-    │   ├── 📄 output.xml                       # Résultats bruts (format Robot Framework)
-    │   ├── 📄 StepsLogger.log                  # Logs step-by-step
-    │   ├── 📄 settings.yaml                    # Configuration d'exécution
-    │   └── 🔑 <secret>.keyx                    # Clé secrète chiffrée (pour cofre-fort kdbx)
-    │
-    ├── 📄 make_doc.bat                         # Générer la documentation
-    └── 📄 start.bat                            # Lancer les tests
+└── 📁 .venv/ # Environnement virtuel Python
 ```
 
 ---
@@ -115,12 +104,17 @@ pip install -r ./lib/requirements.txt
 
 ### Lancer les tests
 ```bash
-Usage: start.bat <TAG> [--dry-run] [--headless] [--history]
+Usage: run_local.bat <TAG> [--web <selenium|playwright>] [--headless] [--history] [--env <env_name>]
+
+Examples:
+  run_local.bat smoke
+  run_local.bat smoke --web selenium
+  run_local.bat regression --browser edge --web playwright --env INTEG --headless --history
 ```
 
 **Exemple :**
 ```bash
-./run/start.bat TNR
+./run/start.bat smoke
 ```
 
 ### Lancer les tests en mode Headless (navigateur invisible)
@@ -130,7 +124,7 @@ Usage: start.bat <TAG> [--dry-run] [--headless] [--history]
 
 **Exemple :**
 ```bash
-./run/start.bat TNR --headless
+./run/start.bat smoke --headless
 ```
 
 ### Lancer les tests en mode Dry Run (simulation du navigateur)
@@ -140,7 +134,7 @@ Usage: start.bat <TAG> [--dry-run] [--headless] [--history]
 
 **Exemple :**
 ```bash
-./run/start.bat TNR --dry-run
+./run/start.bat smoke --dry-run
 ```
 
 ### Lancer les tests avec historisation des logs (horodatage des noms)
@@ -150,7 +144,7 @@ Usage: start.bat <TAG> [--dry-run] [--headless] [--history]
 
 **Exemple :**
 ```bash
-./run/start.bat TNR --history
+./run/start.bat TsmokeNR --history
 ```
 
 ### Générer la documentation
@@ -159,7 +153,7 @@ Usage: start.bat <TAG> [--dry-run] [--headless] [--history]
 ```
 
 ### Résultats et Rapports
-Les résultats se trouvent dans `run/workspace/` :
+Les résultats se trouvent dans `output/` :
 - 📊 `report.html` - Rapport visuel des tests
 - 📋 `log.html` - Logs détaillés d'exécution
 - 📋 `output.xml` - Données brutes (Robot Framework)
@@ -172,17 +166,14 @@ Les résultats se trouvent dans `run/workspace/` :
 ### 🧪 Tests & Documentation
 | Capacité | Description |
 |---|---|
-| 🥒 **Gherkin/BDD** | Format Gherkin pour tests en langage naturel |
 | 📖 **Documentation Auto** | Génération automatique de la doc à partir des tests |
-| 🌍 **Multilingue** | Support FR/EN dans les scénarios de test |
-| 📊 **Format Gherkin Parser** | Support Robot Framework 7.4.1 avec parser intégré |
 
 ### 🌐 Stack Technique Web
 | Composant | Version/Détail |
 |---|---|
 | 🐍 **Python** | 3.12 |
 | 🤖 **Robot Framework** | 7.4.1 |
-| 🧪 **Selenium Library** | 6.8.0 |
+| 🧪 **Browser Library** | 19.12.3 |
 
 ### 📦 Jeu de Données
 | Feature | Détail |
@@ -198,8 +189,6 @@ Les résultats se trouvent dans `run/workspace/` :
 | 📝 **Logs normalisés** | Traces structurées par couche |
 | 📊 **Audit NDJSON** | Format audit pour supervision/monitoring par exemple Grafana / InfluxDB / Fluentd |
 | 📄 **Rapports HTML** | Report.html + log.html détaillés |
-| 🔄 **CI/CD** | GitLab CI/CD + Jenkins (#TODO point d'entrée) |
-| 🎭 **Mode Dry-run** | Mock Selenium sans navigateur réel |
 
 ### 🏗️ Architecture
 | Aspect | Détail |
@@ -215,40 +204,47 @@ Les résultats se trouvent dans `run/workspace/` :
 ## 📚 Ressources Principales
 
 ### 🧪 Tests (Features)
-Location: `features/`
-- Fichiers `.feature` au format Gherkin
-- Implémentation dans `features/steps` en  `.resource` (Robot Framework)
+Location: `test-suites/`
+- Fichiers `.robot` au format Robot Framework
+- Implémentation dans `ressources/etapes` en  `.resource` (Robot Framework)
 
 ### 🧩 Ressources Robot Partagées
-Location: `resources/socle/`
+Location: `ressources/socle/`
 - Configuration globale et paramètres
 - Utilitaires web et gestion des secrets
 - Base commune pour tous les tests
 
 ### 🧩 Ressources Robot de l'application Web sous test
-Location: `resources/<MonAppWeb>/`
+Location: `ressources/`
 - `pages/` - Les actions possibles de chaque page
 - `services/` - Enchainement des actions de page
 
   
 ### 🧩 Extension Python
-Location: `lib/`
+Location: `librairies/`
 - Fichiers `.py` au format Python
 - `ReporterLibrary.py` - Génération des audits et des traces
 - `StepsLogger.py` - Traces pour chaque keyword step, service, page, socle
-- `requirements.txt` - Les dépendances Python
-- `dist/robotframework_gherkin_parser-0.3.2+fix_hooks_e0cf073-py3-none-any.whl` - Support Gherkin pour robot Framework
 
 ### 📊 Données de Test
-Location: `dataset/`
-- `DS_dataset.yaml` - Ensemble de données
+Location: `dataenv/`
+- `INTEG_jdd.yaml` - Ensemble de données de test pour l'environnement INTEG
 - `secrets.kdbx` - Gestionnaire de secrets sécurisé
 
-### 🔄 CI/CD
-Location: `cicd/`
-- Support **GitLab CI/CD** et **Jenkins**
-- Containerisation Docker pour exécution isolée
-
+### 🔄 Outils de lancement et de build
+Location: `outils/`
+- **`run_local.bat`** — Exécution locale des tests (PRINCIPAL)
+  - Syntaxe : `run_local.bat <TAG> [--web selenium|playwright] [--browser edge|chrome|firefox] [--headless] [--history] [--env ENV_NAME]`
+  - Exemples : `run_local.bat smoke`, `run_local.bat regression --env INTEG --headless`
+  
+- **`build_doc.bat`** — Génération de la documentation HTML
+  - Génère les fichiers `.html` dans le répertoire `doc/`
+  
+- **`build_local.bat`** — Build local du projet
+  - Installation du projet et de ses dependances
+  
+- **`run_ci.sh`** — Script d'exécution pour environnement CI (Linux/Bash)
+  - Utilisé par GitLab CI/CD ou pipelines d'intégration continue (TODO/Work in progress)
 ---
 
 ## 🤝 Contribution
