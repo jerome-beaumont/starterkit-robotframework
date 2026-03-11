@@ -50,6 +50,7 @@ Ouvrir Navigateur Sur
   ...    viewport={'width': 1920, 'height': 1080}
   ...    javaScriptEnabled=${TRUE}
   ...    recordVideo={'dir':'videos'}
+  ...    tracing=${TRUE}
 
   Browser.Set Browser Timeout    ${SETTINGS}[selenium_global_timeout]    scope=Test
   Browser.New Page    ${url}
