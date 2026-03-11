@@ -1,0 +1,7 @@
+SETTINGS:
+  browser_default: edge
+  selenium_global_timeout: 30 seconds
+  vault_keepass_database: dataset/secrets.kdbx
+  vault_keepass_keyfile: oWUrq3ZiO3Wj.keyx
+  environment_default: INTEG
+  site_default: siteA

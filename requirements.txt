@@ -1,0 +1,9 @@
+pyyaml==6.0.3
+robotframework==7.4.1
+robotframework-pythonlibcore==4.4.1
+robotframework-requests==1.0a14
+robotframework-seleniumlibrary==6.8.0
+robotframework-browser[bb]==19.12.3
+robotframework-robocop==7.2.0
+robotframework-keepasslibrary==0.10.0
+allure-robotframework==2.15.3

@@ -1,0 +1,12 @@
+#ignore virtual environment folder
+.venv/
+
+# ignore Python cache files
+__pycache__/
+*.pyc
+
+# ignore vault secrets
+*.keyx
+
+# ignore output logs
+output/

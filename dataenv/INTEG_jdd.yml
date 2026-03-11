@@ -1,0 +1,27 @@
+urls: 
+  siteA: https://demo.applitools.com/
+  siteB: https://develop-bo.sample.fr
+
+# Les comptes utilisateurs pour les tests d'automatisation sur Démarches Simplifiées
+utilisateurs:
+  - nom: Gomez
+    role: customer
+    email:  user1@develop.sample.fr
+    prenom: Jack
+    profile: invité
+  - nom: user8
+    email:  user8@develop.sample.fr
+    prenom: Camille
+    profile: usager
+  - nom: Gomez
+    email:  user6@develop.sample.fr
+    prenom: Jack
+    role: customer
+    profile: instructeur
+
+DEMARCHES:
+  - numero: 1919
+    nom:  2136 2nivS Pour Tests Robots  # option Gérer les expert activée
+    dossiers_instructeur: 
+      - numero: '0_2210'
+      - numero: '0_2211'
