@@ -22,7 +22,7 @@ REM Valeurs par défaut des options
 set WEB_DRIVER=playwright
 set HEADLESS_MODE=false
 set HISTORY_MODE=false
-set BROWSER=edge
+set MY_BROWSER=edge
 
 REM Parcours tous les arguments
 set "TAG=%~1"
