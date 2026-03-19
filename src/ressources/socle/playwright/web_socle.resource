@@ -37,11 +37,12 @@ Ouvrir Navigateur Sur
   #  si non défini, utiliser chrome
   #  associer le nom du navigateur à celui attendu par la librairie Browser
   ${browser_default}=  Collections.Get From Dictionary  ${BROWSER}  ${SETTINGS}[browser_default]  default=chrome
-  ${browser}=  OperatingSystem.Get Environment Variable  MY_BROWSER  default=${browser_default}
-  ${options}=  Run Keyword  Definir Options Pour ${browser}
+  ${browser_needed}=  OperatingSystem.Get Environment Variable  MY_BROWSER  default=${browser_default}
+  ${browser_playwright}=  Collections.Get From Dictionary  ${BROWSER}  ${browser_needed}  
+  ${options}=  Run Keyword  Definir Options Pour ${browser_playwright}
 
   Browser.New Browser
-  ...    browser=${browser}
+  ...    browser=${browser_playwright}
   ...    headless=${headless_bool}
   ...    args=${options}
   ...    downloadsPath=${OUTPUT_DIR}/downloads
