@@ -1,12 +1,12 @@
 @echo off
 REM Vérifier si un argument a été passé
 if "%1"=="" (
-    echo Usage: run_local.bat ^<TAG^> [--web ^<selenium^|playwright^>] [--headless] [--history] [--env ^<env_name^>]
+    echo Usage: run_local.bat ^<TAG^> [--web ^<selenium^|playwright^>] [--headless] [--history] [--env ^<env_name^>] [--browser ^<browser_name^>]
     echo.
     echo Examples:
     echo   run_local.bat smoke
     echo   run_local.bat smoke --web selenium
-    echo   run_local.bat regression --browser edge --web playwright --env QUALIF --headless --history
+    echo   run_local.bat regression --browser edge --web playwright --env INTEG --headless --history
     echo.
     exit /b 1
 )
@@ -39,7 +39,7 @@ if /i "%~1"=="--web" (
 ) else if "%~1"=="--history" (
     set HISTORY_MODE=true
 ) else if "%~1"=="--browser" (
-    set BROWSER=%~2
+    set MY_BROWSER=%~2
     shift
 ) else if "%~1"=="--env" (
     set "MY_ENV=%~2"
@@ -67,7 +67,6 @@ set ROBOT_OPTS= ^
   --loglevel TRACE ^
   --variablefile "%WORKSPACE%\settings.yml" ^
   --variable HEADLESS_MODE:%HEADLESS_MODE% ^
-  --variable MY_BROWSER:%BROWSER% ^
   --pythonpath "%PATH2RESOURCE%"
 
 REM Ajouter timestampoutputs si HISTORY_MODE est activé
