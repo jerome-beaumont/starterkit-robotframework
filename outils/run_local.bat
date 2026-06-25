@@ -61,6 +61,7 @@ set "PATH2RESOURCE=%PATH2RESOURCE%;%PATH2RESOURCE%/%WEB_DRIVER%"
 REM Construire la commande robot
 set ROBOT_OPTS= ^
   --outputdir "%WORKSPACE%/output" ^
+  --xunit test-results.xml ^
   --listener allure_robotframework  ^
   --include %TAG% ^
   --language fr ^
